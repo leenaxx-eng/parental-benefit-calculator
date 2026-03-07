@@ -1,6 +1,16 @@
-HELP.md
+# Maven
 target/
+
+# SQLite database
+*.db
+
+# Spring Boot generated file
+HELP.md
+
+# Maven wrapper
 !.mvn/wrapper/maven-wrapper.jar
+
+# Keep target folders inside src if needed
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -28,3 +38,7 @@ target/
 
 ### VS Code ###
 .vscode/
+
+# OS files
+.DS_Store
+Thumbs.db

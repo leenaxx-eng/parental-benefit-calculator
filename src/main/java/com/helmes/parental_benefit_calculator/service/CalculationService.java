@@ -17,29 +17,23 @@ public class CalculationService {
     private static final BigDecimal DAYS_DIVISOR = BigDecimal.valueOf(30);
 
     public BigDecimal calculateCappedSalary(BigDecimal grossSalary) {
-        return grossSalary.min(SALARY_CAP);
+        return grossSalary.min(SALARY_CAP).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal calculateDailyRate(BigDecimal grossSalary) {
-        BigDecimal cappedSalary = calculateCappedSalary(grossSalary);
+    public BigDecimal calculateDailyRate(BigDecimal cappedSalary) {
         return cappedSalary.divide(DAYS_DIVISOR, 2, RoundingMode.HALF_UP);
     }
 
-    public List<MonthlyPayment> calculateMonthlyPayments(BigDecimal grossSalary, LocalDate birthDate) {
-        BigDecimal dailyRate = calculateDailyRate(grossSalary);
+    public List<MonthlyPayment> calculateMonthlyPayments(BigDecimal dailyRate, LocalDate birthDate) {
         List<MonthlyPayment> payments = new ArrayList<>();
-
         LocalDate currentDate = birthDate;
 
         for (int i = 0; i < 12; i++) {
             YearMonth currentMonth = YearMonth.from(currentDate);
 
-            int payableDays;
-            if (i == 0) {
-                payableDays = currentMonth.lengthOfMonth() - birthDate.getDayOfMonth() + 1;
-            } else {
-                payableDays = currentMonth.lengthOfMonth();
-            }
+            int payableDays = (i == 0)
+                    ? currentMonth.lengthOfMonth() - birthDate.getDayOfMonth() + 1
+                    : currentMonth.lengthOfMonth();
 
             BigDecimal payment = dailyRate
                     .multiply(BigDecimal.valueOf(payableDays))

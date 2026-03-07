@@ -38,9 +38,9 @@ public class BenefitService {
 
     private BenefitResponse mapToResponse(Benefit benefit) {
         BigDecimal cappedSalary = calculationService.calculateCappedSalary(benefit.getGrossSalary());
-        BigDecimal dailyRate = calculationService.calculateDailyRate(benefit.getGrossSalary());
+        BigDecimal dailyRate = calculationService.calculateDailyRate(cappedSalary);
         List<MonthlyPayment> monthlyPayments = calculationService.calculateMonthlyPayments(
-                benefit.getGrossSalary(),
+                dailyRate,
                 benefit.getBirthDate()
         );
 

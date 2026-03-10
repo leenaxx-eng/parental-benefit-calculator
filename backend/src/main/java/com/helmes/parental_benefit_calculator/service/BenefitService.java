@@ -23,7 +23,11 @@ public class BenefitService {
     }
 
     public BenefitResponse createBenefit(BenefitRequest request) {
-        Benefit benefit = new Benefit(request.getGrossSalary(), request.getBirthDate());
+
+        Benefit benefit = new Benefit();
+        benefit.setGrossSalary(request.getGrossSalary());
+        benefit.setBirthDate(request.getBirthDate());
+
         Benefit savedBenefit = benefitRepository.save(benefit);
 
         return mapToResponse(savedBenefit);
@@ -39,6 +43,7 @@ public class BenefitService {
     private BenefitResponse mapToResponse(Benefit benefit) {
         BigDecimal cappedSalary = calculationService.calculateCappedSalary(benefit.getGrossSalary());
         BigDecimal dailyRate = calculationService.calculateDailyRate(cappedSalary);
+
         List<MonthlyPayment> monthlyPayments = calculationService.calculateMonthlyPayments(
                 dailyRate,
                 benefit.getBirthDate()

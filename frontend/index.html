@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parental Benefit Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="panel panel-hero">
+        <p class="eyebrow">Estonia Sotsiaalkindlustusamet</p>
+        <h1>Parental Benefit Calculator</h1>
+        <p class="subtitle">
+          Estimate 12 months of parental benefit payments and continue later
+          with saved progress.
+        </p>
+      </section>
+
+      <section class="panel panel-form">
+        <h2>Input</h2>
+        <form id="benefit-form" class="form-grid">
+          <label for="gross-salary">Gross Monthly Salary (EUR)</label>
+          <input
+            id="gross-salary"
+            name="grossSalary"
+            type="number"
+            min="1"
+            step="0.01"
+            placeholder="e.g. 2450"
+            required
+          />
+
+          <label for="birth-date">Baby Birth Date</label>
+          <input id="birth-date" name="birthDate" type="date" required />
+
+          <div class="actions">
+            <button type="submit" id="calculate-btn">Calculate</button>
+            <button type="button" id="load-btn" class="ghost">
+              Load Saved Progress
+            </button>
+          </div>
+        </form>
+
+        <div class="resume-box">
+          <label for="benefit-id">Or load by Benefit ID</label>
+          <div class="resume-inline">
+            <input
+              id="benefit-id"
+              type="number"
+              min="1"
+              placeholder="Saved ID"
+            />
+            <button type="button" id="load-by-id-btn" class="ghost">
+              Load
+            </button>
+          </div>
+        </div>
+
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="panel panel-results">
+        <div class="results-head">
+          <h2>Result</h2>
+          <p id="saved-id" class="saved-id"></p>
+        </div>
+
+        <div class="stats" id="stats"></div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Days Paid</th>
+                <th>Payment (EUR)</th>
+              </tr>
+            </thead>
+            <tbody id="payments-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./ts/App.js"></script>
+  </body>
+</html>

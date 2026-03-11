@@ -34,10 +34,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleInvalidFormat(HttpMessageNotReadableException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("message", "Invalid request format. Check date format (YYYY-MM-DD).");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
+    Map<String, String> error = new HashMap<>();
+    error.put("message", "birthDate must be a valid date in format yyyy-MM-dd");
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+}
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGeneric(Exception ex) {

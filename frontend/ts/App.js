@@ -4,7 +4,6 @@ const benefitService = new BenefitService();
 const form = getRequiredElement("#benefit-form");
 const salaryInput = getRequiredElement("#gross-salary");
 const birthDateInput = getRequiredElement("#birth-date");
-const loadSavedButton = getRequiredElement("#load-btn");
 const statusElement = getRequiredElement("#status");
 const savedIdElement = getRequiredElement("#saved-id");
 const statsElement = getRequiredElement("#stats");
@@ -15,18 +14,22 @@ init();
 function init() {
     renderEmptyState();
     form.addEventListener("submit", onFormSubmit);
-    loadSavedButton.addEventListener("click", onLoadSavedClick);
     loadByIdButton.addEventListener("click", onLoadByIdClick);
     const savedId = getSavedId();
     if (savedId) {
         benefitIdInput.value = String(savedId);
-        setStatus(`Saved benefit ID detected (${savedId}). You can load it anytime.`);
+        setStatus(`Recent benefit ID detected (${savedId}). You can load it anytime.`);
     }
 }
 async function onFormSubmit(event) {
     event.preventDefault();
-    const grossSalary = Number(salaryInput.value);
+    const salaryRaw = salaryInput.value.trim();
+    const grossSalary = Number(salaryRaw);
     const birthDate = birthDateInput.value;
+    if (!/^\d+(\.\d{1,2})?$/.test(salaryRaw)) {
+        setStatus("Gross Monthly Salary (EUR) - up to 2 decimal places.", true);
+        return;
+    }
     if (!Number.isFinite(grossSalary) || grossSalary <= 0) {
         setStatus("Please enter a valid gross salary greater than 0.", true);
         return;
@@ -45,20 +48,12 @@ async function onFormSubmit(event) {
         saveId(result.id);
         benefitIdInput.value = String(result.id);
         renderResult(result);
-        setStatus("Calculation saved successfully.");
+        setStatus(`Recent benefit ID detected (${result.id}). You can load it anytime.`);
     }
     catch (error) {
         const message = error instanceof Error ? error.message : "Calculation failed.";
         setStatus(message, true);
     }
-}
-async function onLoadSavedClick() {
-    const savedId = getSavedId();
-    if (!savedId) {
-        setStatus("No saved progress found in this browser.", true);
-        return;
-    }
-    await loadAndRenderById(savedId);
 }
 async function onLoadByIdClick() {
     const id = Number(benefitIdInput.value);
@@ -97,7 +92,7 @@ function renderResult(result) {
       <tr>
         <td>${escapeHtml(payment.month)}</td>
         <td>${payment.days}</td>
-        <td>EUR ${formatMoney(payment.payment)}</td>
+        <td>${formatMoney(payment.payment)}</td>
       </tr>
     `)
         .join("");

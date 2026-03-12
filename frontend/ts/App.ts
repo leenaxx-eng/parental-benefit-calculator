@@ -7,7 +7,6 @@ const benefitService = new BenefitService();
 const form = getRequiredElement<HTMLFormElement>("#benefit-form");
 const salaryInput = getRequiredElement<HTMLInputElement>("#gross-salary");
 const birthDateInput = getRequiredElement<HTMLInputElement>("#birth-date");
-const loadSavedButton = getRequiredElement<HTMLButtonElement>("#load-btn");
 const statusElement = getRequiredElement<HTMLParagraphElement>("#status");
 const savedIdElement = getRequiredElement<HTMLParagraphElement>("#saved-id");
 const statsElement = getRequiredElement<HTMLDivElement>("#stats");
@@ -22,14 +21,13 @@ function init(): void {
   renderEmptyState();
 
   form.addEventListener("submit", onFormSubmit);
-  loadSavedButton.addEventListener("click", onLoadSavedClick);
   loadByIdButton.addEventListener("click", onLoadByIdClick);
 
   const savedId = getSavedId();
   if (savedId) {
     benefitIdInput.value = String(savedId);
     setStatus(
-      `Saved benefit ID detected (${savedId}). You can load it anytime.`,
+      `Recent benefit ID detected (${savedId}). You can load it anytime.`,
     );
   }
 }
@@ -37,8 +35,14 @@ function init(): void {
 async function onFormSubmit(event: SubmitEvent): Promise<void> {
   event.preventDefault();
 
-  const grossSalary = Number(salaryInput.value);
+  const salaryRaw = salaryInput.value.trim();
+  const grossSalary = Number(salaryRaw);
   const birthDate = birthDateInput.value;
+
+  if (!/^\d+(\.\d{1,2})?$/.test(salaryRaw)) {
+    setStatus("Gross Monthly Salary (EUR) - up to 2 decimal places.", true);
+    return;
+  }
 
   if (!Number.isFinite(grossSalary) || grossSalary <= 0) {
     setStatus("Please enter a valid gross salary greater than 0.", true);
@@ -62,23 +66,12 @@ async function onFormSubmit(event: SubmitEvent): Promise<void> {
     benefitIdInput.value = String(result.id);
 
     renderResult(result);
-    setStatus("Calculation saved successfully.");
+    setStatus(`Recent benefit ID detected (${result.id}). You can load it anytime.`);
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Calculation failed.";
     setStatus(message, true);
   }
-}
-
-async function onLoadSavedClick(): Promise<void> {
-  const savedId = getSavedId();
-
-  if (!savedId) {
-    setStatus("No saved progress found in this browser.", true);
-    return;
-  }
-
-  await loadAndRenderById(savedId);
 }
 
 async function onLoadByIdClick(): Promise<void> {
@@ -128,7 +121,7 @@ function renderResult(result: BenefitResponse): void {
       <tr>
         <td>${escapeHtml(payment.month)}</td>
         <td>${payment.days}</td>
-        <td>EUR ${formatMoney(payment.payment)}</td>
+        <td>${formatMoney(payment.payment)}</td>
       </tr>
     `,
     )

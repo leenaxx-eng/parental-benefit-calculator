@@ -24,12 +24,11 @@ function init() {
 async function onFormSubmit(event) {
     event.preventDefault();
     const salaryRaw = salaryInput.value.trim();
-    const grossSalary = Number(salaryRaw);
-    const birthDate = birthDateInput.value;
-    if (!/^\d+(\.\d{1,2})?$/.test(salaryRaw)) {
-        setStatus("Gross Monthly Salary (EUR) - up to 2 decimal places.", true);
+    if (!validateSalaryFormat(salaryRaw)) {
         return;
     }
+    const grossSalary = Number(salaryRaw);
+    const birthDate = birthDateInput.value;
     if (!Number.isFinite(grossSalary) || grossSalary <= 0) {
         setStatus("Please enter a valid gross salary greater than 0.", true);
         return;
@@ -48,7 +47,7 @@ async function onFormSubmit(event) {
         saveId(result.id);
         benefitIdInput.value = String(result.id);
         renderResult(result);
-        setStatus(`Recent benefit ID detected (${result.id}). You can load it anytime.`);
+        setStatus(`Calculation saved under ID ${result.id}. You can load it any time.`);
     }
     catch (error) {
         const message = error instanceof Error ? error.message : "Calculation failed.";
@@ -126,6 +125,16 @@ function escapeHtml(value) {
 }
 function saveId(id) {
     localStorage.setItem(STORAGE_KEY, String(id));
+}
+function validateSalaryFormat(salaryRaw) {
+    if (!/^\d+(\.\d{1,2})?$/.test(salaryRaw)) {
+        salaryInput.setCustomValidity("Gross Monthly Salary (EUR) - up to 2 decimal places.");
+        salaryInput.reportValidity();
+        salaryInput.focus();
+        return false;
+    }
+    salaryInput.setCustomValidity("");
+    return true;
 }
 function getSavedId() {
     const raw = localStorage.getItem(STORAGE_KEY);

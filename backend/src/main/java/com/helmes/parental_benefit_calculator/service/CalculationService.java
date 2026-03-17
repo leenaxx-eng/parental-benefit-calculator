@@ -21,7 +21,7 @@ public class CalculationService {
     }
 
     public BigDecimal calculateDailyRate(BigDecimal cappedSalary) {
-        return cappedSalary.divide(DAYS_DIVISOR, 2, RoundingMode.HALF_UP);
+        return cappedSalary.divide(DAYS_DIVISOR, 10, RoundingMode.HALF_UP);
     }
 
     public List<MonthlyPayment> calculateMonthlyPayments(BigDecimal dailyRate, LocalDate birthDate) {

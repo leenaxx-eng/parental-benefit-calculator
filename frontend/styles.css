@@ -111,8 +111,16 @@ button:focus-visible {
 .actions {
   margin-top: 0.4rem;
   display: flex;
+  align-items: center;
   gap: 0.6rem;
   flex-wrap: wrap;
+}
+
+.validation-message {
+  min-height: 1.2rem;
+  margin: 0;
+  color: #9b1d1d;
+  font-size: 0.92rem;
 }
 
 button {

@@ -7,6 +7,9 @@ const benefitService = new BenefitService();
 const form = getRequiredElement<HTMLFormElement>("#benefit-form");
 const salaryInput = getRequiredElement<HTMLInputElement>("#gross-salary");
 const birthDateInput = getRequiredElement<HTMLInputElement>("#birth-date");
+const validationMessageElement = getRequiredElement<HTMLParagraphElement>(
+  "#validation-message",
+);
 const statusElement = getRequiredElement<HTMLParagraphElement>("#status");
 const savedIdElement = getRequiredElement<HTMLParagraphElement>("#saved-id");
 const statsElement = getRequiredElement<HTMLDivElement>("#stats");
@@ -27,30 +30,33 @@ function init(): void {
   if (savedId) {
     benefitIdInput.value = String(savedId);
     setStatus(
-      `Recent benefit ID detected (${savedId}). You can load it anytime.`,
+      `Recent calculation saed under ID (${savedId}). You can load it anytime.`,
     );
   }
 }
 
 async function onFormSubmit(event: SubmitEvent): Promise<void> {
   event.preventDefault();
+  setValidationMessage("");
 
   const salaryRaw = salaryInput.value.trim();
   const grossSalary = Number(salaryRaw);
   const birthDate = birthDateInput.value;
 
   if (!/^\d+(\.\d{1,2})?$/.test(salaryRaw)) {
-    setStatus("Gross Monthly Salary (EUR) - up to 2 decimal places.", true);
+    setValidationMessage(
+      "Gross Monthly Salary (EUR) - up to 2 decimal places.",
+    );
     return;
   }
 
   if (!Number.isFinite(grossSalary) || grossSalary <= 0) {
-    setStatus("Please enter a valid gross salary greater than 0.", true);
+    setValidationMessage("Please enter a valid gross salary greater than 0.");
     return;
   }
 
   if (!birthDate) {
-    setStatus("Please select a valid birth date.", true);
+    setValidationMessage("Please select a valid birth date.");
     return;
   }
 
@@ -66,19 +72,23 @@ async function onFormSubmit(event: SubmitEvent): Promise<void> {
     benefitIdInput.value = String(result.id);
 
     renderResult(result);
-    setStatus(`Recent benefit ID detected (${result.id}). You can load it anytime.`);
+    setValidationMessage("");
+    setStatus(
+      `Recent calculation saved under ID (${result.id}). You can load it anytime.`,
+    );
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Calculation failed.";
-    setStatus(message, true);
+    setStatus(message);
   }
 }
 
 async function onLoadByIdClick(): Promise<void> {
+  setValidationMessage("");
   const id = Number(benefitIdInput.value);
 
   if (!Number.isInteger(id) || id <= 0) {
-    setStatus("Enter a valid benefit ID.", true);
+    setValidationMessage("Enter a valid benefit ID.");
     return;
   }
 
@@ -101,7 +111,7 @@ async function loadAndRenderById(id: number): Promise<void> {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to load saved benefit.";
-    setStatus(message, true);
+    setStatus(message);
   }
 }
 
@@ -138,9 +148,12 @@ function renderEmptyState(): void {
   `;
 }
 
-function setStatus(message: string, isError = false): void {
+function setStatus(message: string): void {
   statusElement.textContent = message;
-  statusElement.style.color = isError ? "#9b1d1d" : "";
+}
+
+function setValidationMessage(message: string): void {
+  validationMessageElement.textContent = message;
 }
 
 function formatMoney(value: number): string {

@@ -42,3 +42,7 @@ HELP.md
 # OS files
 .DS_Store
 Thumbs.db
+
+# Compiled .js files
+frontend/ts/*.js
+frontend/ts/*.js.map

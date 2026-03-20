@@ -11,7 +11,8 @@ A web application that calculates Estonia's parental benefits based on gross sal
     - Daily rate = salary ÷ 30
     - Monthly payment (except first month) = days in month x daily rate
     - First month = days from birth date to month end x daily rate 
-- Calculations are automatically saved. A `Benefit ID` is returned, stored in browser's local storage and used to retrive results.
+- Calculations are automatically saved. 
+- `Benefit ID` is returned, stored in browser local storage and used to retreive results.
 - Project plan is in [notion](https://www.notion.so/Parental-Benefit-Calculator-30be1dbe16b7816babc4e520640446a4)
 
 ## Tech Stack
@@ -19,10 +20,19 @@ A web application that calculates Estonia's parental benefits based on gross sal
 - Backend: Java 17, Spring Boot 
 - Database: SQLite
 - Testing: JUnit
-- Documentation: Swagger(Springdoc)
+- Documentation: Swagger (Springdoc)
+
+## Architecture
+- Frontend (TypeScript): handles user input, display results and store `Benefit ID`
+- Backend (Java and Spring Boot): handles calculation logic and expose REST API endpoints
+- Database (SQLite): persists calculation results
+- Communication: REST API (JSON)
 
 ## Key Decisions
-- SQLite for simplicity 
+- SQLite for simplicity and local persistence
+- Separation of frontend and backend for clarity and scalability
+- Docker for consistent local setup
+- Local storage for quick retrieval without authentication
 
 ## Running the Application with Docker
 ### Prerequisites
@@ -39,7 +49,7 @@ A web application that calculates Estonia's parental benefits based on gross sal
 
 ### Stop
 - `Ctrl + C` or `docker compose down`
-- The database file (`backend/benefits.db`) persists and survives containers restarts.
+- Database file (`backend/benefits.db`) persists and survives container restarts.
 
 ## How to Use the App
 ### Frontend
@@ -47,7 +57,8 @@ A web application that calculates Estonia's parental benefits based on gross sal
 - Enter gross monthly salary (required, >0, max 2 decimals)
 - Enter the child's birth date (required, DD/MM/YYYY)
 - Click `Calculate`
-Output
+
+**Output**
 - Month
 - Paid days
 - Payment amount
@@ -66,11 +77,14 @@ Errors are shown for invalid input
 - Run tests with `mvn clean test`
 
 ## API Endpoints
-- `POST` /api/benefits -> create calculations
-- `GET` /api/benefits/{id} -> retrieve calculations
+- `POST /api/benefits` - create calculations
+- `GET /api/benefits/{id}` - retrieve calculations
 - Full documentation at [Swagger](http://localhost:8080/swagger-ui/index.html)
 
 ## Future Improvements
+- Replace SQLite with PostgreSQL for scalability
+- Add authentication if handling sensitive data 
+- Add export functionality (e.g. CSV, PDF) 
 
 ## Contributors
 - Bacon Chan

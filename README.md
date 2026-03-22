@@ -12,7 +12,7 @@ A web application that calculates Estonia's parental benefits based on gross sal
     - Monthly payment (except first month) = days in month x daily rate
     - First month = days from birth date to month end x daily rate 
 - Calculations are automatically saved. 
-- `Benefit ID` is returned, stored in browser local storage and used to retreive results.
+- `Benefit ID` is returned, stored in browser local storage and used to retrieve results.
 - Project plan is in [notion](https://www.notion.so/Parental-Benefit-Calculator-30be1dbe16b7816babc4e520640446a4)
 
 ## Tech Stack
@@ -23,8 +23,8 @@ A web application that calculates Estonia's parental benefits based on gross sal
 - Documentation: Swagger (Springdoc)
 
 ## Architecture
-- Frontend (TypeScript): handles user input, display results and store `Benefit ID`
-- Backend (Java and Spring Boot): handles calculation logic and expose REST API endpoints
+- Frontend (TypeScript): handles user input, displays results and stores `Benefit ID`
+- Backend (Java and Spring Boot): handles calculation logic and exposes REST API endpoints
 - Database (SQLite): persists calculation results
 - Communication: REST API (JSON)
 
@@ -55,7 +55,7 @@ A web application that calculates Estonia's parental benefits based on gross sal
 ### Frontend
 #### Create Calculation 
 - Enter gross monthly salary (required, >0, max 2 decimals)
-- Enter the child's birth date (required, DD/MM/YYYY)
+- Enter the child's birth date (required, uses browser date picker; internally stored as ISO format YYYY-MM-DD)
 - Click `Calculate`
 
 **Output**
@@ -74,7 +74,9 @@ Errors are shown for invalid input
 - Backend tests cover:
     1. Calculation logic
     2. API endpoints
-- Run tests with `mvn clean test`
+- Run tests (from `backend` directory):
+    - Mac/Linux: `./mvnw clean test`
+    - Windows: `mvnw.cmd clean test`
 
 ## API Endpoints
 - `POST /api/benefits` - create calculations

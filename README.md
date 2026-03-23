@@ -1,5 +1,5 @@
 # Parental Benefit Calculator
-A web application that calculates Estonia's parental benefits based on gross salary and the child's birth date.
+A mobile-friendly web application that calculates Estonia's parental benefits based on gross salary and child's birth date.
 
 ## Project Overview
 - Users can:
@@ -9,11 +9,11 @@ A web application that calculates Estonia's parental benefits based on gross sal
 - Calculation rules:
     - Salary capped at €4000
     - Daily rate = salary ÷ 30
-    - Monthly payment (except first month) = days in month x daily rate
+    - Monthly payment (except the first month) = days in month x daily rate
     - First month = days from birth date to month end x daily rate 
-- Calculations are automatically saved. 
+- Calculations are automatically saved
 - `Benefit ID` is returned, stored in browser local storage and used to retrieve results.
-- Project plan is in [notion](https://www.notion.so/Parental-Benefit-Calculator-30be1dbe16b7816babc4e520640446a4)
+- Project plan is available in [notion page](https://www.notion.so/Parental-Benefit-Calculator-30be1dbe16b7816babc4e520640446a4)
 
 ## Tech Stack
 - Frontend: TypeScript
@@ -29,10 +29,11 @@ A web application that calculates Estonia's parental benefits based on gross sal
 - Communication: REST API (JSON)
 
 ## Key Decisions
-- SQLite for simplicity and local persistence
+- No authentication implemented; progress is persisted without user accounts as data is non-sensitive
 - Separation of frontend and backend for clarity and scalability
-- Docker for consistent local setup
-- Local storage for quick retrieval without authentication
+- SQLite for simplicity and local persistence
+- Docker for consistent and reliable local setup
+
 
 ## Running the Application with Docker
 ### Prerequisites
@@ -61,7 +62,8 @@ A web application that calculates Estonia's parental benefits based on gross sal
 **Output**
 - Month
 - Paid days
-- Payment amount
+- Payment amount<br>
+  
 Errors are shown for invalid input
 
 #### Load Calculation 
@@ -81,7 +83,7 @@ Errors are shown for invalid input
 ## API Endpoints
 - `POST /api/benefits` - create calculations
 - `GET /api/benefits/{id}` - retrieve calculations
-- Full documentation at [Swagger](http://localhost:8080/swagger-ui/index.html)
+- Full documentation at [Swagger](http://localhost:8080/swagger-ui/index.html) - available while backend is running
 
 ## Future Improvements
 - Replace SQLite with PostgreSQL for scalability

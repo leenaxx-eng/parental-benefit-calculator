@@ -54,7 +54,7 @@ A mobile-friendly web application that calculates Estonia's parental benefits ba
 ## Running the Application without Docker (optional)
 ### Backend
 - `cd backend`
-- `./mvnw spring-boot:run` (Mac/Linux) / `mvnw.cmd spring-boot:run` (Windows)
+- `./mvnw spring-boot:run` (Mac/Linux) / `.\mvnw.cmd spring-boot:run` (Windows)
 
 ### Frontend
 - `cd frontend`  
@@ -91,7 +91,7 @@ Errors are shown for invalid input
     2. API endpoints
 - Run tests (from `backend` directory):
     - Mac/Linux: `./mvnw clean test`
-    - Windows: `mvnw.cmd clean test`
+    - Windows: `.\mvnw.cmd clean test`
 
 ## API Endpoints
 - `POST /api/benefits` - create calculations

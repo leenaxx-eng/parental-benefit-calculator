@@ -30,7 +30,7 @@ function init(): void {
   if (savedId) {
     benefitIdInput.value = String(savedId);
     setStatus(
-      `Recent calculation saed under ID (${savedId}). You can load it anytime.`,
+      `Recent calculation saved under ID (${savedId}). You can load it anytime.`,
     );
   }
 }

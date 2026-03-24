@@ -30,7 +30,7 @@ function init(): void {
   if (savedId) {
     benefitIdInput.value = String(savedId);
     setStatus(
-      `Recent calculation saed under ID (${savedId}). You can load it anytime.`,
+      `Recent calculation saved under ID (${savedId}). You can load it anytime.`,
     );
   }
 }
@@ -45,7 +45,7 @@ async function onFormSubmit(event: SubmitEvent): Promise<void> {
 
   if (!/^\d+(\.\d{1,2})?$/.test(salaryRaw)) {
     setValidationMessage(
-      "Gross Monthly Salary (EUR) - up to 2 decimal places.",
+      "Please enter a valid gross salary (up to 2 decimal places).",
     );
     return;
   }
@@ -88,7 +88,7 @@ async function onLoadByIdClick(): Promise<void> {
   const id = Number(benefitIdInput.value);
 
   if (!Number.isInteger(id) || id <= 0) {
-    setValidationMessage("Enter a valid benefit ID.");
+    setStatus("Enter a valid benefit ID.");
     return;
   }
 

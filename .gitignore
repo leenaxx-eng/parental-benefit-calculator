@@ -10,3 +10,6 @@ target/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Complied .js files
+frontend/ts/*.js

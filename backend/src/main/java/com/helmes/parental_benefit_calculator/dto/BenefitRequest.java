@@ -2,7 +2,7 @@ package com.helmes.parental_benefit_calculator.dto;
 
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class BenefitRequest {
 
   @NotNull(message = "Gross salary is required")
-  @Positive(message = "Gross salary must be greater than 0")
+  @DecimalMin(value = "0.01", message = "grossSalary must be greater than 0")
   @Digits(integer = 10, fraction = 2, message = "Salary can have max 2 decimal places")
   @Schema(
     description = "User's gross monthly salary in Euro (max 2 decimal places)", 

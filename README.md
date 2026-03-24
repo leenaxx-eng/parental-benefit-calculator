@@ -11,7 +11,7 @@ A mobile-friendly web application that calculates Estonia's parental benefits ba
     - Daily rate = salary ÷ 30
     - Monthly payment (except the first month) = days in month x daily rate
     - First month payment = days from birth date to month end x daily rate 
-- Calculations are automatically persisted.
+- Gross salary and child's birth date are automatically persisted.
 - `Benefit ID` is returned, stored in browser local storage and used to retrieve results.
 - Project plan is available in [notion page](https://www.notion.so/Parental-Benefit-Calculator-30be1dbe16b7816babc4e520640446a4)
 

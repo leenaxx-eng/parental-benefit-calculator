@@ -30,7 +30,7 @@ public class BenefitResponse {
   @Schema(description = "Salary in Euro after applying the €4000 cap", example = "4000")
   private BigDecimal cappedSalary;
 
-  @Schema(description = "Daily benefit rate calculated from capped salary", example = "133.33")
+  @Schema(description = "Daily benefit rate calculated from capped salary (rounded to 2 decimal places)", example = "133.33")
   private BigDecimal dailyRate;
 
   @Schema(description = "List of monthly parental benefit payments for the 12-month period",

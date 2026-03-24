@@ -1,5 +1,5 @@
 # Parental Benefit Calculator
-A web application that calculates Estonia's parental benefits based on gross salary and the child's birth date.
+A mobile-friendly web application that calculates Estonia's parental benefits based on gross salary and child's birth date.
 
 ## Project Overview
 - Users can:
@@ -9,11 +9,11 @@ A web application that calculates Estonia's parental benefits based on gross sal
 - Calculation rules:
     - Salary capped at €4000
     - Daily rate = salary ÷ 30
-    - Monthly payment (except first month) = days in month x daily rate
-    - First month = days from birth date to month end x daily rate 
-- Calculations are automatically saved. 
+    - Monthly payment (except the first month) = days in month x daily rate
+    - First month payment = days from birth date to month end x daily rate 
+- Gross salary and child's birth date are automatically persisted.
 - `Benefit ID` is returned, stored in browser local storage and used to retrieve results.
-- Project plan is in [notion](https://www.notion.so/Parental-Benefit-Calculator-30be1dbe16b7816babc4e520640446a4)
+- Project plan is available in [notion page](https://www.notion.so/Parental-Benefit-Calculator-30be1dbe16b7816babc4e520640446a4)
 
 ## Tech Stack
 - Frontend: TypeScript
@@ -29,10 +29,10 @@ A web application that calculates Estonia's parental benefits based on gross sal
 - Communication: REST API (JSON)
 
 ## Key Decisions
+- No authentication implemented; progress is persisted without user accounts as data is non-sensitive
+- Separation of frontend and backend for clarity and easier future extension
 - SQLite for simplicity and local persistence
-- Separation of frontend and backend for clarity and scalability
-- Docker for consistent local setup
-- Local storage for quick retrieval without authentication
+- Docker for consistent and reliable local setup
 
 ## Running the Application with Docker
 ### Prerequisites
@@ -51,6 +51,20 @@ A web application that calculates Estonia's parental benefits based on gross sal
 - `Ctrl + C` or `docker compose down`
 - Database file (`backend/benefits.db`) persists and survives container restarts.
 
+## Running the Application without Docker (optional)
+### Backend
+- `cd backend`
+- `./mvnw spring-boot:run` (Mac/Linux) / `.\mvnw.cmd spring-boot:run` (Windows)
+
+### Frontend
+- `cd frontend`  
+- `npm install`  
+- `npm run dev`
+
+### Access
+- Frontend: `http://localhost:5500`
+- Backend: `http://localhost:8080`
+
 ## How to Use the App
 ### Frontend
 #### Create Calculation 
@@ -61,14 +75,15 @@ A web application that calculates Estonia's parental benefits based on gross sal
 **Output**
 - Month
 - Paid days
-- Payment amount
+- Payment amount<br>
+  
 Errors are shown for invalid input
 
 #### Load Calculation 
 - `Benefit ID` is returned after calculation
 - Enter `Benefit ID` to retrieve results
 - `Benefit ID` is saved in browser local storage. 
-- Field auto-fills on return visit
+- The field auto-fills on a return visit
 
 ## Automated Tests
 - Backend tests cover:
@@ -76,12 +91,12 @@ Errors are shown for invalid input
     2. API endpoints
 - Run tests (from `backend` directory):
     - Mac/Linux: `./mvnw clean test`
-    - Windows: `mvnw.cmd clean test`
+    - Windows: `.\mvnw.cmd clean test`
 
 ## API Endpoints
 - `POST /api/benefits` - create calculations
 - `GET /api/benefits/{id}` - retrieve calculations
-- Full documentation at [Swagger](http://localhost:8080/swagger-ui/index.html)
+- Full API documentation is available at [Swagger](http://localhost:8080/swagger-ui/index.html) (while the backend is running)
 
 ## Future Improvements
 - Replace SQLite with PostgreSQL for scalability

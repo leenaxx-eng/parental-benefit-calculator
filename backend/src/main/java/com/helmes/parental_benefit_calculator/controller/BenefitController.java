@@ -25,15 +25,15 @@ public class BenefitController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	@Operation(summary = "Calculate and store a parental benefit schedule")
+	@Operation(summary = "Create a benefit request and return calculated schedule")
 	public BenefitResponse createBenefit(@Valid @RequestBody BenefitRequest request) {
 		return benefitService.createBenefit(request);
 	}
 
 	@GetMapping("/{id}")
-	@Operation(summary = "Retrieve saved benefit schedule")
+	@Operation(summary = "Retrieve benefit data and return calculated schedule")
 	public BenefitResponse getBenefitById(
-			@Parameter(description = "ID of saved benefit calculation", example = "1") 
+			@Parameter(description = "ID of stored benefit data", example = "1") 
 			@PathVariable Long id) {
 		return benefitService.getBenefitById(id);
 	}

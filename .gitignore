@@ -4,45 +4,9 @@ target/
 # SQLite database
 *.db
 
-# Spring Boot generated file
-HELP.md
-
-# Maven wrapper
-!.mvn/wrapper/maven-wrapper.jar
-
-# Keep target folders inside src if needed
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
+# VS Code
 .vscode/
 
 # OS files
 .DS_Store
 Thumbs.db
-
-# Compiled .js files
-frontend/ts/*.js
-frontend/ts/*.js.map
